@@ -2,35 +2,50 @@
 import ItemForm from '@/components/ItemForm.vue';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useAppStore } from '@/stores/app';
 
 const route = useRoute();
-const items = ref([
-    { title: 'Item 1', username: 'rrre', password: 'rrre', sites: [] },
-    { title: 'Item 2', username: 'test', password: 'test', sites: [] }
-]);
-
+const appStore = useAppStore();
+const items = ref([]);
 const selectedItem = ref(null);
+const categories = ref([]);
+const selectedCategory = ref(null);
 
-watch(route, () => {
-    if (route.fullPath.includes('create')) {
-        selectedItem.value = {
-            title: null,
-            username: null,
-            password: null,
-            sites: [ { link: null } ],
-        }
+const getStorage = async () => {
+    const response = await appStore.getData('/api/secure-storage/storage/');
+    if (response.data) {
+        items.value = response.data.results.body;
     }
-});
+};
 
-onMounted(() => {
-    if (route.fullPath.includes('create')) {
-        selectedItem.value = {
-            title: null,
-            username: null,
-            password: null,
-            sites: [ { link: null } ],
-        }
+const getDetails = async (item) => {
+    const response = await appStore.getData('/api/secure-storage/storage/app/' + item.id);
+    if (response.data) {
+        selectedItem.value = { ...response.data.body, id: item.id };
     }
+};
+
+const getCategories = async () => {
+    const response = await appStore.getData('/api/secure-storage/storage/document-abstraction/');
+    if (response.data) {
+        categories.value = response.data;
+    }
+};
+
+const selectCategory = async () => {
+    const response = await appStore.getData('/api/secure-storage/storage/get-for-post/?code=' + selectedCategory.value);
+    if (response.data) {
+        selectedItem.value = response.data;
+    }
+};
+
+const saveStorage = async () => {
+    
+};
+
+onMounted(async () => {
+    await getStorage();
+    await getCategories();
 });
 </script>
 
@@ -42,7 +57,7 @@ onMounted(() => {
                     v-for="(item, index) of items" 
                     :key="index" 
                     class="mb-2"
-                    @click="selectedItem = item"
+                    @click="getDetails(item)"
                 >
                     <template v-slot:prepend>
                         <img 
@@ -51,13 +66,30 @@ onMounted(() => {
                         />
                     </template>
                     <v-list-item-title class="text-lg">
-                        {{ item.title }}
+                        {{ item.name }}
                     </v-list-item-title>
                 </v-list-item>
             </v-list>
         </div>
-        <div class="w-full flex justify-center py-10">
-            <ItemForm v-if="selectedItem" :form="selectedItem" />
+        <div class="w-full flex flex-col items-center py-10 h-full overflow-auto">
+            <div v-if="$route.fullPath.includes('/create')" class="rounded-t-lg mb-1 w-8/12">
+                <v-select 
+                    label="Категории" 
+                    variant="underlined"
+                    hide-details
+                    :items="categories"
+                    item-title="document_short_name.ru"
+                    item-value="document_code"
+                    v-model="selectedCategory"
+                    @update:model-value="selectCategory"
+                />
+            </div>
+            <ItemForm 
+                v-if="selectedItem" 
+                :form="selectedItem" 
+                :categories="categories" 
+                @saveData="saveStorage"
+            />
         </div>
     </div>
 </template>

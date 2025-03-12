@@ -10,19 +10,33 @@ const routes = [
 	{
 		path: '/profile',
 		name: 'Profile',
-		meta: { public: true },
 		component: () => import('@/pages/Profile.vue')
+	},
+	{
+		path: '/login',
+		name: 'Login',
+		meta: { public: true },
+		component: () => import('@/pages/Login.vue')
+	},
+	{
+		path: '/registration',
+		name: 'Registration',
+		meta: { public: true },
+		component: () => import('@/pages/Registration.vue')
+	},
+	{
+		path: '/api/secure-storage/user/confirm/:uidb64/:token',
+		name: 'Confirm Register User',
+		component: () => import('@/pages/ConfirmRegister.vue')
 	},
 	{
 		path: '/storage',
 		name: 'Storage',
-		meta: { public: true },
 		component: () => import('@/pages/ItemList.vue')
 	},
 	{
 		path: '/storage/create',
 		name: 'Create Storage Item',
-		meta: { public: true },
 		component: () => import('@/pages/ItemList.vue')
 	}
 ]

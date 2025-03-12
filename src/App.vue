@@ -6,11 +6,11 @@ import Navbar from "@/components/Navbar.vue";
 
 <template>
 	<Notification />
-	<v-layout class="flex items-start w-full min-h-screen">
-		<Sidebar />
+	<v-layout class="flex items-start w-full min-h-screen h-full">
+		<Sidebar v-if="!$route.meta.public" />
 
 		<div class="w-full">
-			<Navbar />
+			<Navbar v-if="!$route.meta.public" />
 
 			<v-main class="pl-[100px] pr-10 py-5">
 				<router-view />

@@ -1,74 +1,100 @@
 <script setup>
+import { useAppStore } from '@/stores/app';
 import { ref } from 'vue';
 
 const props = defineProps({
-    form: Object
+    form: Object,
 });
 
-const showPass = ref(false);
+const emit = defineEmits(['saveData']);
+
+const appStore = useAppStore();
+const showPass = ref(null);
+
+const getParams = async (field) => {
+    if (!field.parameters?.length) {
+        const response = await appStore.getData('/api/stm/list-values/bylist/' + field.type_extend + '/');
+        if (response) field.parameters = response.data;
+    }
+};
 </script>
 
 <template>
     <div class="flex flex-col w-8/12">
-        <div class="flex items-center gap-5">
-            <img 
-                src="@/assets/images/logo.svg" 
-                class="w-16 h-16 mr-4 rounded-full" 
-            />
-            <v-text-field 
-                variant="outlined"
-                hide-details
-                v-model="form.title"
-            />
-        </div>
-        <div class="p-6 rounded-t-lg bg-[#E7E7E7] mt-8 mb-1">
-            <v-text-field 
-                label="username" 
+        <div 
+            v-for="formItem of form"
+            :key="formItem.code"
+            class="p-6 rounded-t-lg border mt-8 mb-1"
+        >
+            <v-textarea 
+                v-if="formItem.type_value === 'text'"
+                :label="formItem.short_name.ru" 
                 variant="underlined"
                 hide-details
-                v-model="form.username"
+                v-model="formItem.value"
+                class="mb-3"
             />
-        </div>
-        <div class="p-6 rounded-b-lg bg-[#E7E7E7]">
             <v-text-field 
-                label="password" 
+                v-if="formItem.type_value === 'str'"
+                :label="formItem.short_name.ru" 
                 variant="underlined"
                 hide-details
-                v-model="form.password"
-                :append-inner-icon="showPass ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                :type="showPass ? 'text' : 'password'"
-                @click:append-inner="showPass = !showPass"
+                v-model="formItem.value"
+            />
+            <v-text-field 
+                v-if="formItem.type_value === 'binary'"
+                :label="formItem.short_name.ru" 
+                variant="underlined"
+                hide-details
+                v-model="formItem.value"
+                :append-inner-icon="showPass === formItem.id ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                :type="showPass === formItem.id ? 'text' : 'password'"
+                @click:append-inner="showPass === formItem.id ? showPass = null : showPass = formItem.id"
+            />
+            <v-text-field 
+                v-if="formItem.type_value === 'int'"
+                :label="formItem.short_name.ru" 
+                type="number"
+                variant="underlined"
+                hide-details
+                v-model="formItem.value"
+            />
+            <v-select 
+                v-if="formItem.type_value === 'list'"
+                :label="formItem.short_name.ru" 
+                variant="underlined"
+                hide-details
+                :items="formItem.parameters"
+                item-title="short_name.en"
+                item-value="id"
+                v-model="formItem.value"
+                @click="getParams(formItem)"
+            />
+            <v-date-input 
+                v-if="formItem.type_value === 'date'"
+                :label="formItem.short_name.ru" 
+                variant="underlined"
+                hide-details
+                v-model="formItem.value"
             />
         </div>
-
-        <div class="p-6 rounded-t-lg border mt-8 mb-1">
-            <div
-                v-for="(site, index) of form.sites"
-                :key="index"
-                class="flex items-center"
-            >
-                <v-text-field 
-                    label="website" 
-                    variant="underlined"
-                    hide-details
-                    v-model="site.link"
-                    class="mb-3"
-                />
-                <v-btn 
-                    v-if="index !== 0 && form.sites.length > 1"
-                    icon="mdi-trash-can-outline" 
-                    variant="text" 
-                    size="small"
-                    @click="form.sites.splice(index, 1)"
-                />
-            </div>
+        <div class="mt-6 flex justify-end gap-5">
             <v-btn 
-                text="add more" 
-                class="text-none mt-2"
-                prepend-icon="mdi-plus"
-                variant="text"
+                text="Save" 
+                class="text-none"
+                flat
+                color="#070ACA"
                 rounded="xl"
-                @click="form.sites.push({ link: null })"
+                width="112"
+                @click="emit('saveData')"
+            />
+            <v-btn 
+                text="Cancel" 
+                class="text-none"
+                flat
+                color="#E1E1E3"
+                rounded="xl"
+                width="112"
             />
         </div>
     </div>

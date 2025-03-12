@@ -8,9 +8,9 @@ const showNewPass = ref(false);
 const showConfirmPass = ref(false);
 const canEdit = ref(false);
 const userData = reactive({
-    name: 'Regina',
-    surname: 'R',
-    patronymic: 'Rrre'
+    first_name: null,
+    last_name: null,
+    username: null
 });
 const passwordData = reactive({
     old_password: null,
@@ -18,7 +18,7 @@ const passwordData = reactive({
     confirm_password: null
 });
 const initials = computed(() => {
-    return (userData.name ? userData.name[0] : '') + (userData.surname ? userData.surname[0] : '');
+    return (userData.first_name ? userData.first_name[0] : '') + (userData.last_name ? userData.last_name[0] : '');
 });
 const canSavePass = computed(() => {
     if (passwordData.old_password?.length 
@@ -29,14 +29,16 @@ const canSavePass = computed(() => {
 });
 
 const getUserInfo = async () => {
-    const response = await appStore.getData('/' + appStore.user_id);
-    userData.name = response.name;
-    userData.surname = response.surname;
-    userData.patronymic = response.patronymic;
+    const response = await appStore.getData('/api/secure-storage/user/' + appStore.user_id);
+    if (response.data) {
+        userData.first_name = response.data.user?.first_name;
+        userData.last_name = response.data.user?.last_name;
+        userData.username = response.data.user?.username;
+    }
 };
 
 const saveInfo = async () => {
-    const response = await appStore.patchData('/');
+    const response = await appStore.patchData('/api/secure-storage/user/' + appStore.user_id + '/', userData);
     if (response) {
         canEdit.value = false;
         await getUserInfo();
@@ -44,7 +46,7 @@ const saveInfo = async () => {
 };
 
 onMounted(async () => {
-    // await getUserInfo();
+    await getUserInfo();
 });
 </script>
 
@@ -59,7 +61,7 @@ onMounted(async () => {
                         variant="outlined"
                         density="compact"
                         hide-details
-                        v-model="userData.name"
+                        v-model="userData.first_name"
                         :disabled="canEdit ? false : true"
                     />
                 </div>
@@ -69,17 +71,17 @@ onMounted(async () => {
                         variant="outlined"
                         density="compact"
                         hide-details
-                        v-model="userData.surname"
+                        v-model="userData.last_name"
                         :disabled="canEdit ? false : true"
                     />
                 </div>
                 <div>
-                    <label>Patronymic</label>
+                    <label>Username</label>
                     <v-text-field 
                         variant="outlined"
                         density="compact"
                         hide-details
-                        v-model="userData.patronymic"
+                        v-model="userData.username"
                         :disabled="canEdit ? false : true"
                     />
                 </div>
@@ -97,7 +99,7 @@ onMounted(async () => {
         </div>
         <div class="flex flex-col items-end">
             <div class="text-[32px] font-medium text-white bg-[#C37B17] 
-                rounded-lg py-3 w-[72px] h-[72px] text-center"
+                rounded-lg py-3 w-[72px] h-[72px] text-center uppercase"
             >
                 {{ initials }}
             </div>
