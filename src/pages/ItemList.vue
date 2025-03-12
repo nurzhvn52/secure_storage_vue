@@ -22,6 +22,9 @@ const getDetails = async (item) => {
     const response = await appStore.getData('/api/secure-storage/storage/app/' + item.id);
     if (response.data) {
         selectedItem.value = response.data.body;
+        selectedItem.value.forEach(item => {
+            if (item.type_value === 'date' && item.value) item.value = new Date(item.value);
+        });
     }
 };
 
@@ -39,9 +42,19 @@ const selectCategory = async () => {
     }
 };
 
+const getCurrentValue = (item) => {
+    if (item.value) {
+        if (item.type_value === 'date') {
+            return new Date(item.value).toISOString().split('T')[0];
+        }
+        else return item.value;
+    }
+    else return null;
+};
+
 const saveStorage = async () => {
     const indicators = selectedItem.value.map(item => {
-        return { code: item.code, type: item.type_value, value: item.value };
+        return { code: item.code, type: item.type_value, value: getCurrentValue(item.value) };
     });
     const data = {
         code: selectedCategory.value,
