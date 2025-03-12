@@ -1,10 +1,10 @@
 <script setup>
 import ItemForm from '@/components/ItemForm.vue';
 import { onMounted, reactive, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useAppStore } from '@/stores/app';
 
-const route = useRoute();
+const router = useRouter();
 const appStore = useAppStore();
 const items = ref([]);
 const selectedItem = ref(null);
@@ -21,7 +21,7 @@ const getStorage = async () => {
 const getDetails = async (item) => {
     const response = await appStore.getData('/api/secure-storage/storage/app/' + item.id);
     if (response.data) {
-        selectedItem.value = { ...response.data.body, id: item.id };
+        selectedItem.value = response.data.body;
     }
 };
 
@@ -40,7 +40,17 @@ const selectCategory = async () => {
 };
 
 const saveStorage = async () => {
-    
+    const indicators = selectedItem.value.map(item => {
+        return { code: item.code, type: item.type_value, value: item.value };
+    });
+    const data = {
+        code: selectedCategory.value,
+        indicators: indicators
+    };
+    const response = await appStore.postData('/api/secure-storage/storage/app/', data);
+    if (response) {
+        router.push({ name: 'Storage' });
+    }
 };
 
 onMounted(async () => {

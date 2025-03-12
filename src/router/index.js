@@ -4,8 +4,7 @@ const routes = [
 	{
 		path: '/',
 		name: 'Main',
-		meta: { public: true },
-		component: () => import('@/pages/Index.vue')
+		component: () => import('@/pages/ItemList.vue')
 	},
 	{
 		path: '/profile',
