@@ -49,6 +49,7 @@ const selectItem = () => {
                 :items="items"
                 item-title="name"
                 item-value="id"
+                hide-no-data
                 @update:search="searchItems"
                 @update:modelValue="selectItem"
                 @click:clear="clearSearch"

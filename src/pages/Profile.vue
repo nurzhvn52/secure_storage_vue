@@ -45,6 +45,10 @@ const saveInfo = async () => {
     }
 };
 
+const changePassword = async () => {
+    await appStore.patchData('/api/change-password/', passwordData);
+};
+
 onMounted(async () => {
     await getUserInfo();
 });
@@ -164,6 +168,7 @@ onMounted(async () => {
             rounded="lg"
             width="112"
             :disabled="!canSavePass"
+            @click="changePassword"
         />
     </div>
 </template>
