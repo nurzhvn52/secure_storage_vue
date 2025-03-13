@@ -6,7 +6,7 @@ const props = defineProps({
     form: Object,
 });
 
-const emit = defineEmits(['saveData']);
+const emit = defineEmits(['saveData', 'update', 'closeForm']);
 
 const appStore = useAppStore();
 const showPass = ref(null);
@@ -33,6 +33,7 @@ const getParams = async (field) => {
                 hide-details
                 v-model="formItem.value"
                 class="mb-3"
+                @blur="emit('update', formItem)"
             />
             <v-text-field 
                 v-if="formItem.type_value === 'str'"
@@ -40,6 +41,7 @@ const getParams = async (field) => {
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
+                @blur="emit('update', formItem)"
             />
             <v-text-field 
                 v-if="formItem.type_value === 'binary'"
@@ -50,6 +52,7 @@ const getParams = async (field) => {
                 :append-inner-icon="showPass === formItem.id ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 :type="showPass === formItem.id ? 'text' : 'password'"
                 @click:append-inner="showPass === formItem.id ? showPass = null : showPass = formItem.id"
+                @blur="emit('update', formItem)"
             />
             <v-text-field 
                 v-if="formItem.type_value === 'int'"
@@ -58,6 +61,7 @@ const getParams = async (field) => {
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
+                @blur="emit('update', formItem)"
             />
             <v-select 
                 v-if="formItem.type_value === 'list'"
@@ -69,6 +73,7 @@ const getParams = async (field) => {
                 item-value="id"
                 v-model="formItem.value"
                 @click="getParams(formItem)"
+                @update:model-value="emit('update', formItem)"
             />
             <v-date-input 
                 v-if="formItem.type_value === 'date'"
@@ -76,6 +81,7 @@ const getParams = async (field) => {
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
+                @update:model-value="emit('update', formItem)"
             />
         </div>
         <div class="mt-6 flex justify-end gap-5">
@@ -95,6 +101,7 @@ const getParams = async (field) => {
                 color="#E1E1E3"
                 rounded="xl"
                 width="112"
+                @click="emit('closeForm')"
             />
         </div>
     </div>

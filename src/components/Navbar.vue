@@ -1,3 +1,7 @@
+<script setup>
+const goToCreatePage = () => window.location = '/storage/create';
+</script>
+
 <template>
     <header class="py-5 pl-[100px] pr-10 h-[64px] border-b flex items-center justify-between">
         <div class="w-[400px]">
@@ -16,7 +20,7 @@
             flat
             color="#070ACA"
             rounded="xl"
-            @click="$router.push({ name: 'Create Storage Item' })"
+            @click="goToCreatePage"
         />
     </header>
 </template>

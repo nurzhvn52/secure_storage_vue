@@ -50,6 +50,7 @@ export const useAppStore = defineStore('app', {
     },
 
     async postData(endpoint, data, needsToken = true) {
+      const notificationStore = useNotificationStore();
       try {
         const config = {};
         if (needsToken) {
@@ -58,25 +59,24 @@ export const useAppStore = defineStore('app', {
           };
         }
         const response = await axios.post(this.base_url + endpoint, data, config);
-
+        if (response) notificationStore.showNotification({ type: 'success', message: response.data.message });
         return response.data;
       } catch (error) {
-        const notificationStore = useNotificationStore();
         notificationStore.showNotification({ type: 'error', message: error.response?.data });
       }
     },
 
     async patchData(endpoint, data) {
+      const notificationStore = useNotificationStore();
       try {
         const response = await axios.patch(this.base_url + endpoint, data, {
           headers: {
             Authorization: `Token ${this.token}`,
           },
         });
-
+        if (response) notificationStore.showNotification({ type: 'success', message: response.data.message });
         return response.data;
       } catch (error) {
-        const notificationStore = useNotificationStore();
         notificationStore.showNotification({ type: 'error', message: error.response?.data });
       }
     },
