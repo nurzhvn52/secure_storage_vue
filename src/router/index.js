@@ -37,6 +37,11 @@ const routes = [
 		path: '/storage/create',
 		name: 'Create Storage Item',
 		component: () => import('@/pages/ItemList.vue')
+	},
+	{
+		path: '/storage/:itemId',
+		name: 'Show Storage Item',
+		component: () => import('@/pages/ItemList.vue')
 	}
 ]
 

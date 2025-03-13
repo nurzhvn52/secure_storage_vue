@@ -89,6 +89,7 @@ const saveStorage = async () => {
         if (response) {
             router.push({ name: 'Storage' });
             selectedItem.value = null;
+            selectedCategory.value = null;
         }
     }
 };
@@ -110,11 +111,17 @@ const addChangedField = (item) => {
 watch(route, async () => {
     await getStorage();
     await getCategories();
+    if (route.name === 'Show Storage Item' && route.params.itemId) {
+        await getDetails({ id: route.params.itemId });
+    }
 });
 
 onMounted(async () => {
     await getStorage();
     await getCategories();
+    if (route.name === 'Show Storage Item' && route.params.itemId) {
+        await getDetails({ id: route.params.itemId });
+    }
 });
 </script>
 
@@ -133,7 +140,7 @@ onMounted(async () => {
                         <template v-slot:prepend>
                             <img 
                                 src="@/assets/images/logo.svg" 
-                                class="w-8 h-8 min-w-8 min-h-8 mr-4" 
+                                class="w-5 h-5 min-w-5 min-h-5 mr-4" 
                             />
                         </template>
                         <v-list-item-title class="text-lg">
