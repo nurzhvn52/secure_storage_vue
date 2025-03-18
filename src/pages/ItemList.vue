@@ -157,7 +157,7 @@ onMounted(async () => {
                         class="rounded-t-lg mb-1 w-8/12"
                     >
                         <v-select 
-                            label="Категории" 
+                            :label="$t('categories')" 
                             variant="underlined"
                             hide-details
                             :items="categories"

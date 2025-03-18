@@ -33,7 +33,7 @@ const route = useRoute();
                 </v-icon>
             </template>
             <v-list-item-title>
-                Profile
+                {{ $t('profile') }}
             </v-list-item-title>
           </v-list-item>
           <v-list-item to="/storage">
@@ -46,7 +46,7 @@ const route = useRoute();
                 </v-icon>
             </template>
             <v-list-item-title>
-                Storage
+                {{ $t('storage') }}
             </v-list-item-title>
           </v-list-item>
           <v-list-item to="/tools">
@@ -59,7 +59,7 @@ const route = useRoute();
                 </v-icon>
             </template>
             <v-list-item-title>
-                Tools
+                {{ $t('tools') }}
             </v-list-item-title>
           </v-list-item>
           <v-list-item to="/">
@@ -72,7 +72,7 @@ const route = useRoute();
                 </v-icon>
             </template>
             <v-list-item-title>
-                Something
+                {{ $t('something') }}
             </v-list-item-title>
           </v-list-item>
         </v-list>

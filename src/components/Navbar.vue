@@ -2,12 +2,21 @@
 import { useAppStore } from '@/stores/app';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
+const { t, locale } = useI18n();
 const appStore = useAppStore();
 const router = useRouter();
 const selectedItem = ref(null);
 const searchText = ref(null);
-const items = ref([])
+const items = ref([]);
+const langMenu = ref(false);
+
+const changeLanguage = (lang) => {
+	locale.value = lang;
+	sessionStorage.setItem('lang', lang);
+    langMenu.value = false
+};
 
 const goToCreatePage = () => window.location = '/storage/create';
 
@@ -37,8 +46,8 @@ const selectItem = () => {
 <template>
     <header class="py-5 pl-[100px] pr-10 h-[64px] border-b flex items-center justify-between">
         <div class="w-[400px]">
-            <v-autocomplete 
-                placeholder="Search for item" 
+            <v-autocomplete
+                :placeholder="$t('search')" 
                 variant="outlined"
                 density="compact"
                 hide-details
@@ -55,14 +64,46 @@ const selectItem = () => {
                 @click:clear="clearSearch"
             />
         </div>
-        <v-btn 
-            text="Add item" 
-            class="text-none"
-            prepend-icon="mdi-plus"
-            flat
-            color="#070ACA"
-            rounded="xl"
-            @click="goToCreatePage"
-        />
+        <div class="flex items-center gap-4">
+            <v-btn 
+                :text="$t('add_item')" 
+                class="text-none"
+                prepend-icon="mdi-plus"
+                flat
+                color="#070ACA"
+                rounded="xl"
+                @click="goToCreatePage"
+            />
+            <v-menu v-model="langMenu" activator="#lang-changer" offset-y>
+                <v-list>
+                    <v-list-item 
+                        title="RU" 
+                        class="uppercase"
+                        @click="changeLanguage('ru')" 
+                    />
+                    <v-list-item 
+                        title="KK" 
+                        class="uppercase"
+                        @click="changeLanguage('kk')" 
+                    />
+                    <v-list-item 
+                        title="EN" 
+                        class="uppercase"
+                        @click="changeLanguage('en')" 
+                    />
+                </v-list>
+            </v-menu>
+            <v-btn
+                id="lang-changer"
+                variant="text"
+                rounded="xl"
+                class="text-[#070ACA]"
+            >
+                {{ $i18n.locale }}
+                <v-icon size="18" class="ml-1">
+                    {{ langMenu ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
+            </v-btn>
+        </div>
     </header>
 </template>

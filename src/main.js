@@ -9,10 +9,21 @@ import { createI18n } from 'vue-i18n';
 // Localization
 const savedLanguage = sessionStorage.getItem('lang') || 'ru';
 
+import en from '@/locales/en.json';
+import ru from '@/locales/ru.json';
+import kk from '@/locales/kk.json';
+
+const messages = {
+	en,
+	ru,
+	kk,
+};
+
 const i18n = createI18n({
 	legacy: false,
 	locale: savedLanguage,
 	fallbackLocale: 'ru',
+	messages,
 });
 
 // Vuetify

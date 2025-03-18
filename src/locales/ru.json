@@ -1,0 +1,20 @@
+{
+    "add_item": "Добавить",
+    "search": "Поиск",
+    "personal_data": "Персональные данные",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "username": "Username",
+    "save": "Сохранить",
+    "change_password": "Изменить пароль",
+    "old_password": "Старый пароль",
+    "new_password": "Новый пароль",
+    "confirm_password": "Подтвердите новый пароль",
+    "categories": "Категории",
+    "cancel": "Отмена",
+    "profile": "Профиль",
+    "storage": "Хранилище",
+    "tools": "Инструменты",
+    "something": "Something",
+    "edit": "Редактировать"
+}

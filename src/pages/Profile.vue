@@ -65,10 +65,10 @@ onMounted(async () => {
 <template>
   <div class="flex justify-between">
     <div class="flex flex-col w-1/2">
-      <h3 class="text-[28px] font-bold">Personal data</h3>
+      <h3 class="text-[28px] font-bold">{{ $t('personal_data') }}</h3>
       <div class="grid grid-cols-2 gap-x-10 gap-y-5 mt-5">
         <div>
-          <label>Name</label>
+          <label>{{ $t('name') }}</label>
           <v-text-field
             variant="outlined"
             density="compact"
@@ -78,7 +78,7 @@ onMounted(async () => {
           />
         </div>
         <div>
-          <label>Surname</label>
+          <label>{{ $t('surname') }}</label>
           <v-text-field
             variant="outlined"
             density="compact"
@@ -88,7 +88,7 @@ onMounted(async () => {
           />
         </div>
         <div>
-          <label>Username</label>
+          <label>{{ $t('username') }}</label>
           <v-text-field
             variant="outlined"
             density="compact"
@@ -100,7 +100,7 @@ onMounted(async () => {
       </div>
       <v-btn
         v-if="canEdit"
-        text="Save"
+        :text="$t('save')"
         class="text-none mt-5"
         flat
         color="#070ACA"
@@ -116,22 +116,21 @@ onMounted(async () => {
         {{ initials }}
       </div>
       <v-btn
-        :text="canEdit ? 'Cancel' : 'Edit'"
+        :text="canEdit ? $t('cancel') : $t('edit')"
         class="text-none mt-5"
         :prepend-icon="canEdit ? '' : 'mdi-pencil'"
         flat
         color="#070ACA"
         rounded="lg"
-        width="112"
         @click="canEdit = !canEdit"
       />
     </div>
   </div>
   <div class="flex flex-col w-1/2 mt-10">
-    <h3 class="text-[28px] font-bold">Change password</h3>
+    <h3 class="text-[28px] font-bold">{{ $t('change_password') }}</h3>
     <div class="grid grid-cols-2 gap-x-10 gap-y-5 mt-5">
       <div>
-        <label>Old Password</label>
+        <label>{{ $t('old_password') }}</label>
         <v-text-field
           variant="outlined"
           density="compact"
@@ -144,7 +143,7 @@ onMounted(async () => {
       </div>
       <div></div>
       <div>
-        <label>New Password</label>
+        <label>{{ $t('new_password') }}</label>
         <v-text-field
           variant="outlined"
           density="compact"
@@ -156,7 +155,7 @@ onMounted(async () => {
         />
       </div>
       <div>
-        <label>Confirm New Password</label>
+        <label>{{ $t('confirm_password') }}</label>
         <v-text-field
           variant="outlined"
           density="compact"
@@ -169,7 +168,7 @@ onMounted(async () => {
       </div>
     </div>
     <v-btn
-      text="Save"
+      :text="$t('save')"
       class="text-none mt-5"
       flat
       color="#070ACA"

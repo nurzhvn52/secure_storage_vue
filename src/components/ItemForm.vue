@@ -28,7 +28,7 @@ const getParams = async (field) => {
         >
             <v-textarea 
                 v-if="formItem.type_value === 'text'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
@@ -37,7 +37,7 @@ const getParams = async (field) => {
             />
             <v-text-field 
                 v-if="formItem.type_value === 'str'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
@@ -45,7 +45,7 @@ const getParams = async (field) => {
             />
             <v-text-field 
                 v-if="formItem.type_value === 'binary'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
@@ -56,7 +56,7 @@ const getParams = async (field) => {
             />
             <v-text-field 
                 v-if="formItem.type_value === 'int'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 type="number"
                 variant="underlined"
                 hide-details
@@ -65,7 +65,7 @@ const getParams = async (field) => {
             />
             <v-select 
                 v-if="formItem.type_value === 'list'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 variant="underlined"
                 hide-details
                 :items="formItem.parameters"
@@ -77,7 +77,7 @@ const getParams = async (field) => {
             />
             <v-date-input 
                 v-if="formItem.type_value === 'date'"
-                :label="formItem.short_name.ru" 
+                :label="formItem.short_name[$i18n.locale]" 
                 variant="underlined"
                 hide-details
                 v-model="formItem.value"
@@ -86,7 +86,7 @@ const getParams = async (field) => {
         </div>
         <div class="mt-6 flex justify-end gap-5">
             <v-btn 
-                text="Save" 
+                :text="$t('save')" 
                 class="text-none"
                 flat
                 color="#070ACA"
@@ -95,7 +95,7 @@ const getParams = async (field) => {
                 @click="emit('saveData')"
             />
             <v-btn 
-                text="Cancel" 
+                :text="$t('cancel')" 
                 class="text-none"
                 flat
                 color="#E1E1E3"

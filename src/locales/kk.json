@@ -1,0 +1,20 @@
+{
+    "add_item": "Add item",
+    "search": "Search for item",
+    "personal_data": "Personal data",
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "save": "Save",
+    "change_password": "Change password",
+    "old_password": "Old Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm New Password",
+    "categories": "Categories",
+    "cancel": "Cancel",
+    "profile": "Profile",
+    "storage": "Storage",
+    "tools": "Tools",
+    "something": "Something",
+    "edit": "Edit"
+}
