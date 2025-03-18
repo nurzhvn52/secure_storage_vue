@@ -12,7 +12,7 @@ import Navbar from "@/components/Navbar.vue";
 		<div class="w-full">
 			<Navbar v-if="!$route.meta.public" />
 
-			<v-main class="pl-[100px] pr-10 py-5">
+			<v-main :class="[{ 'pl-[100px]': !$route.meta.public }, 'pr-10 py-5']">
 				<router-view />
 			</v-main>
 		</div>
