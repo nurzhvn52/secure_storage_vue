@@ -8,6 +8,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.2.0",
+    "lucide-react": "^0.507.0",
+    "package": "^1.0.1",
     "pinia": "^2.0.0",
     "vue": "^3.2.0",
     "vuetify": "^3.7.3"

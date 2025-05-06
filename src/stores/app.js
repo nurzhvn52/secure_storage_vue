@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 
 export const useAppStore = defineStore('app', {
   state: () => ({
-    base_url: import.meta.env.VITE_API_BASE_URL,
+      base_url: "http://secure.jumystap.kz",
     isAuthenticated: false,
     token: sessionStorage.getItem("token") || null,
     user_id: sessionStorage.getItem("user_id") || null,
